@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>소비 분석</title>
+  <meta name="viewport" content="width=393, initial-scale=1.0" />
+  <!-- Flask에서 static 폴더의 CSS 연결 -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Flask에서 static 폴더의 JS 연결 -->
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+  <div class="container">
+    <div class="title">소비 분석</div>
+    <div class="month-nav">
+      <button aria-label="이전 달" id="prevMonth">←</button>
+      <span id="currentMonth">5월</span>
+      <button aria-label="다음 달" id="nextMonth">→</button>
+    </div>
+    <div class="charts-area">
+      <section>
+        <h2 class="chart-title">태그별 사용량</h2>
+        <canvas id="tagChart" width="330" height="180"></canvas>
+      </section>
+      <section>
+        <h2 class="chart-title">제일 많이 쓴 재료</h2>
+        <canvas id="topChart" width="330" height="180"></canvas>
+      </section>
+      <section>
+        <h2 class="chart-title">월별 소비량</h2>
+        <canvas id="monthChart" width="330" height="180"></canvas>
+      </section>
+    </div>
+    <div class="bottom-nav">
+      <button class="nav-btn"></button>
+      <button class="nav-btn"></button>
+      <button class="nav-btn active"></button>
+    </div>
+  </div>
+</body>
+</html>
