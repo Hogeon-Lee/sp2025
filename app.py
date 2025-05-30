@@ -8,7 +8,7 @@ def get_db():
         host='127.0.0.1',
         port=3306,
         user='root',
-        password='gksrnr2001!',
+        password='password',
         db='mydb',
         charset='utf8'
     )
