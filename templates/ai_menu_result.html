@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AI 추천 메뉴</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='ai_menu_style.css') }}">
+</head>
+<body>
+    <header>AI 추천 메뉴</header>
+    <div class="container">
+
+        <p class="update-time">{{ update_time }} 업데이트됨</p>
+
+        <div class="section">
+            <h2>1. 유통기한이 임박한 재료를 사용한 메뉴 추천</h2>
+            <div class="menu-block">
+                <h3>{{ menu1_name }}</h3>
+                <p>{{ menu1_desc }}</p>
+                <p>사용한 재료: {{ menu1_ingredients | join(', ') }}</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>2. 수량이 많은 재료를 사용한 메뉴 추천</h2>
+            <div class="menu-block">
+                <h3>{{ menu2_name }}</h3>
+                <p>{{ menu2_desc }}</p>
+                <p>사용한 재료: {{ menu2_ingredients | join(', ') }}</p>
+            </div>
+        </div>
+
+        <form action="/recommend" method="post">
+            <button type="submit" class="main-button">다시 추천받기</button>
+        </form>
+    </div>
+    <div class="footer"></div>
+</body>
+
+
+</html>
