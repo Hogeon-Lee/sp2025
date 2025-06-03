@@ -1,14 +1,16 @@
+let currentYear = 2025;
 let currentMonth = 5;
 let tagChart = null;
 let topChart = null;
 let monthChart = null;
 
 // 태그별 사용량
-function fetchAndRenderTagStats(month) {
-  fetch(`/api/tag-stats?month=${month}`)
+function fetchAndRenderTagStats(year, month) {
+  fetch(`/api/tag-stats?year=${year}&month=${month}`)
     .then(res => res.json())
     .then(result => {
       const ctx = document.getElementById('tagChart').getContext('2d');
+      const greens = ['#C8F7C5', '#95FF8F', '#5DB075', '#388E3C', '#205D27'];
       if (!tagChart) {
         tagChart = new Chart(ctx, {
           type: 'bar',
@@ -17,7 +19,7 @@ function fetchAndRenderTagStats(month) {
             datasets: [{
               label: '사용량',
               data: result.data,
-              backgroundColor: ['#C8F7C5', '#95FF8F', '#5DB075', '#388E3C', '#205D27']
+              backgroundColor: greens.slice(0, result.labels.length)
             }]
           },
           options: {
@@ -28,17 +30,19 @@ function fetchAndRenderTagStats(month) {
       } else {
         tagChart.data.labels = result.labels;
         tagChart.data.datasets[0].data = result.data;
+        tagChart.data.datasets[0].backgroundColor = greens.slice(0, result.labels.length);
         tagChart.update();
       }
     });
 }
 
 // 제일 많이 쓴 재료
-function fetchAndRenderTopIngredients(month) {
-  fetch(`/api/top-ingredients?month=${month}`)
+function fetchAndRenderTopIngredients(year, month) {
+  fetch(`/api/top-ingredients?year=${year}&month=${month}`)
     .then(res => res.json())
     .then(result => {
       const ctx = document.getElementById('topChart').getContext('2d');
+      const greens = ['#C8F7C5', '#95FF8F', '#5DB075', '#388E3C', '#205D27'];
       if (!topChart) {
         topChart = new Chart(ctx, {
           type: 'bar',
@@ -47,7 +51,7 @@ function fetchAndRenderTopIngredients(month) {
             datasets: [{
               label: '사용량',
               data: result.data,
-              backgroundColor: '#5db075'
+              backgroundColor: greens.slice(0, result.labels.length)
             }]
           },
           options: {
@@ -59,12 +63,13 @@ function fetchAndRenderTopIngredients(month) {
       } else {
         topChart.data.labels = result.labels;
         topChart.data.datasets[0].data = result.data;
+        topChart.data.datasets[0].backgroundColor = greens.slice(0, result.labels.length);
         topChart.update();
       }
     });
 }
 
-// 월별 소비량 (12달)
+// 월별 소비량 (여러 연도)
 function fetchAndRenderMonthStats() {
   fetch('/api/month-stats')
     .then(res => res.json())
@@ -74,51 +79,73 @@ function fetchAndRenderMonthStats() {
         monthChart = new Chart(ctx, {
           type: 'line',
           data: {
-            labels: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-            datasets: [{
-              label: '소비량',
-              data: result.data,
-              borderColor: '#5db075',                   
-              backgroundColor: 'rgba(93,176,117,0.15)',
-              tension: 0.3,
-              pointBackgroundColor: '#5db075'
-            }]
+            labels: result.labels,
+            datasets: [
+              {
+                label: '소비량',
+                data: result.consume,
+                borderColor: '#5db075',
+                backgroundColor: 'rgba(93,176,117,0.15)',
+                tension: 0.3,
+                pointBackgroundColor: '#5db075'
+              },
+              {
+                label: '버린 양',
+                data: result.discard,
+                borderColor: '#388E3C',
+                backgroundColor: 'rgba(56,142,60,0.10)',
+                tension: 0.3,
+                pointBackgroundColor: '#388E3C'
+              }
+            ]
           },
           options: {
-            plugins: { legend: { display: false } },
+            plugins: { legend: { display: true } },
             scales: { y: { beginAtZero: true } }
           }
         });
       } else {
-        monthChart.data.datasets[0].data = result.data;
+        monthChart.data.labels = result.labels;
+        monthChart.data.datasets[0].data = result.consume;
+        monthChart.data.datasets[1].data = result.discard;
         monthChart.update();
       }
     });
 }
 
-const monthNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+
 function updateMonthNav() {
-  document.getElementById('currentMonth').textContent = monthNames[currentMonth-1];
+  document.getElementById('currentMonth').textContent = `${currentYear}년 ${currentMonth}월`;
 }
 
 // 월 이동 버튼 이벤트
 document.getElementById('prevMonth').onclick = function() {
-  currentMonth = currentMonth === 1 ? 12 : currentMonth - 1;
+  if (currentMonth === 1) {
+    currentMonth = 12;
+    currentYear -= 1;
+  } else {
+    currentMonth -= 1;
+  }
   updateMonthNav();
-  fetchAndRenderTagStats(currentMonth);
-  fetchAndRenderTopIngredients(currentMonth);
+  fetchAndRenderTagStats(currentYear, currentMonth);
+  fetchAndRenderTopIngredients(currentYear, currentMonth);
 };
 document.getElementById('nextMonth').onclick = function() {
-  currentMonth = currentMonth === 12 ? 1 : currentMonth + 1;
+  if (currentMonth === 12) {
+    currentMonth = 1;
+    currentYear += 1;
+  } else {
+    currentMonth += 1;
+  }
   updateMonthNav();
-  fetchAndRenderTagStats(currentMonth);
-  fetchAndRenderTopIngredients(currentMonth);
+  fetchAndRenderTagStats(currentYear, currentMonth);
+  fetchAndRenderTopIngredients(currentYear, currentMonth);
 };
 
 // 최초 실행
 window.onload = function() {
   updateMonthNav();
-  fetchAndRenderTagStats(currentMonth);
-  fetchAndRenderTopIngredients(currentMonth);
+  fetchAndRenderTagStats(currentYear, currentMonth);
+  fetchAndRenderTopIngredients(currentYear, currentMonth);
   fetchAndRenderMonthStats();
 };
