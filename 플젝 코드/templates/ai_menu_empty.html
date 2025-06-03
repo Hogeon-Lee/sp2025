@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AI 추천 메뉴</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>AI 추천 메뉴</header>
+    <div class="container">
+
+        <p>냉장고에 있는 재료를 활용한 요리를 추천해드려요!</p>
+        <form action="/recommend" method="post">
+            <button type="submit" class="main-button">추천받기</button>
+        </form>
+    </div>
+    <div class="bottom-nav">
+      <a href="/ingredient-search"><button class="nav-btn"></button></a>
+      <a href="/ai-menu"><button class="nav-btn active"></button></a>
+      <a href="/"><button class="nav-btn"></button></a>
+    </div>
+</body>
+</html>
