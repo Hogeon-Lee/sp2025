@@ -4,11 +4,8 @@
   <meta charset="UTF-8" />
   <title>소비 분석</title>
   <meta name="viewport" content="width=393, initial-scale=1.0" />
-  <!-- Flask에서 static 폴더의 CSS 연결 -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Flask에서 static 폴더의 JS 연결 -->
   <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 <body>
@@ -16,7 +13,7 @@
     <div class="title">소비 분석</div>
     <div class="month-nav">
       <button aria-label="이전 달" id="prevMonth">←</button>
-      <span id="currentMonth">5월</span>
+      <span id="currentMonth">2025년 5월</span>
       <button aria-label="다음 달" id="nextMonth">→</button>
     </div>
     <div class="charts-area">
@@ -34,9 +31,9 @@
       </section>
     </div>
     <div class="bottom-nav">
-      <button class="nav-btn"></button>
-      <button class="nav-btn"></button>
-      <button class="nav-btn active"></button>
+      <a href="/ingredient-search"><button class="nav-btn"></button></a>
+      <a href="/ai-menu"><button class="nav-btn"></button></a>
+      <a href="/"><button class="nav-btn active"></button></a>
     </div>
   </div>
 </body>

@@ -1,14 +1,18 @@
 from flask import Flask, render_template, jsonify, request
+from ingredient_crud import ingredient_crud
+from ai_menu_page import ai_menu
 import pymysql
 
 app = Flask(__name__)
+app.register_blueprint(ingredient_crud, url_prefix='/')
+app.register_blueprint(ai_menu, url_prefix='/')
 
 def get_db():
     return pymysql.connect(
         host='127.0.0.1',
         port=3306,
         user='root',
-        password='gksrnr2001!',
+        password='root',   # 실제 DB 비밀번호로 변경
         db='mydb',
         charset='utf8'
     )

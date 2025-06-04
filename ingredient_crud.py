@@ -7,7 +7,7 @@ def get_db():
     return pymysql.connect(
         host='127.0.0.1',
         user='root',
-        password='happy0102',   # 실제 DB 비밀번호로 변경
+        password='root',   # 실제 DB 비밀번호로 변경
         db='mydb',
         charset='utf8'
     )

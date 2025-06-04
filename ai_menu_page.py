@@ -1,15 +1,17 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template
 import openai
 import datetime
 import re
 import ast
+import pymysql
 
-app = Flask(__name__)
+ai_menu = Blueprint('ai_menu', __name__)
+
 
 # 최신 OpenAI 클라이언트 (예: openai.OpenAI())
 client = openai.OpenAI(api_key='sk')
 
-@app.route('/')
+@ai_menu.route('/ai-menu')
 def index():
     # TODO: DB에서 메뉴 불러오기
     # if db_has_data:
@@ -17,7 +19,7 @@ def index():
     # else:
     return render_template('ai_menu_empty.html')
 
-@app.route('/recommend', methods=['POST'])
+@ai_menu.route('/recommend', methods=['POST'])
 def recommend():
     # 예시 데이터 → 나중에 DB 저장
     ingredient_dict = {
@@ -105,5 +107,3 @@ def recommend():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)

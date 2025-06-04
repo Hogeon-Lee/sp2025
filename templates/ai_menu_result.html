@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>AI 추천 메뉴</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='ai_menu_style.css') }}">
+    <meta name="viewport" content="width=393, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <header>AI 추천 메뉴</header>
@@ -33,7 +34,11 @@
             <button type="submit" class="main-button">다시 추천받기</button>
         </form>
     </div>
-    <div class="footer"></div>
+    <div class="bottom-nav">
+      <a href="/ingredient-search"><button class="nav-btn"></button></a>
+      <a href="/ai-menu"><button class="nav-btn active"></button></a>
+      <a href="/"><button class="nav-btn"></button></a>
+    </div>
 </body>
 
 
