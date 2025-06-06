@@ -10,7 +10,7 @@ app.register_blueprint(ai_menu, url_prefix='/')
 def get_db():
     return pymysql.connect(
         host='127.0.0.1',
-        port=3306,
+        # port=3306,
         user='root',
         password='root',   # 실제 DB 비밀번호로 변경
         db='mydb',

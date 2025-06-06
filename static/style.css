@@ -48,7 +48,6 @@ header .new-btn {
   margin-left: 50px; 
 }
 
-
 /* === 메인 컨테이너 === */
 .container {
   width: 100vw;
@@ -74,12 +73,14 @@ header .new-btn {
   gap: 30px;
   margin: 30px 0 10px 0;
 }
+
 .month-nav button {
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
 }
+
 #currentMonth {
   font-size: 1.3rem;
   color: #222;
@@ -92,15 +93,18 @@ header .new-btn {
   width: 100%;
   box-sizing: border-box;
 }
+
 .chart-title {
   font-size: 1.1rem;
   color: #333;
   margin-bottom: 8px;
   margin-left: 4px;
 }
+
 section {
   margin-bottom: 24px;
 }
+
 canvas {
   background: #fff;
   border-radius: 10px;
@@ -116,6 +120,7 @@ canvas {
   margin-top: 10px;
   margin-right: 23px;
 }
+
 .search-input {
   width: 100%;
   border: none;
@@ -125,6 +130,7 @@ canvas {
   font-size: 16px;
   margin-bottom: 8px;
 }
+
 .result-list {
   list-style: none;
   padding: 0;
@@ -132,10 +138,48 @@ canvas {
   flex: 1;
   width: 100%;
 }
+
 .result-list li {
-  padding: 14px 16px;
-  border-bottom: 1px solid #ececec;
-  font-size: 17px;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px 16px;
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+.result-list li .info {
+  font-weight: 500;
+  color: #333;
+}
+
+.result-list li .actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.result-list li .actions button {
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #333;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.result-list li .actions button:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
 }
 
 /* === 메뉴/AI 추천 공통 === */
@@ -146,6 +190,7 @@ h2 {
   margin-bottom: 12px;
   font-weight: 600;
 }
+
 h3 {
   background-color: #4CAF50;
   color: white;
@@ -155,6 +200,7 @@ h3 {
   font-size: 16px;
   font-weight: 500;
 }
+
 .menu-block {
   background-color: #fff8dc;
   padding: 14px;
@@ -164,15 +210,18 @@ h3 {
   width: 100%;
   box-sizing: border-box;
 }
+
 .section p {
   font-size: 15px;
   margin: 6px 0;
 }
+
 .update-time {
   font-size: 12px;
   color: gray;
   margin-bottom: 18px;
 }
+
 .main-button {
   background-color: #4CAF50;
   color: white;
@@ -185,6 +234,7 @@ h3 {
   margin-top: 24px;
   transition: background 0.18s;
 }
+
 .main-button:hover {
   background-color: #45a049;
 }
@@ -207,6 +257,7 @@ h3 {
   box-shadow: 0px 4px 4px 0 rgba(0,0,0,0.15);
   box-sizing: border-box;
 }
+
 .nav-btn {
   width: 38px; height: 38px;
   border-radius: 50%;
@@ -217,10 +268,12 @@ h3 {
   cursor: pointer;
   transition: background 0.18s, transform 0.15s;
 }
+
 .nav-btn.active {
   background: #5db075;
   transform: scale(1.12);
 }
+
 .nav-btn:hover {
   background: #7edc9a;
 }
@@ -235,6 +288,7 @@ h3 {
   justify-content: center;
   z-index: 999;
 }
+
 .modal-content {
   background: #fff;
   padding: 24px;
@@ -244,6 +298,7 @@ h3 {
   flex-direction: column;
   gap: 12px;
 }
+
 .modal-btns {
   display: flex;
   gap: 12px;

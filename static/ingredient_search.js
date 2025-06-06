@@ -14,8 +14,7 @@ function searchIngredients(query = "") {
 function renderList(data) {
   const list = document.getElementById("resultList");
   list.innerHTML = '';
-  // *** amount가 0인 것은 표시하지 않음 ***
-  const filtered = data.filter(item => item.amount > 0);
+  const filtered = data.filter(item => item.quantity > 0);
   if (filtered.length === 0) {
     list.innerHTML = '<li style="color:#aaa;text-align:center;">검색 결과가 없습니다</li>';
     return;
@@ -23,15 +22,14 @@ function renderList(data) {
   filtered.forEach(item => {
     const li = document.createElement('li');
     li.innerHTML = `
-      <span>
-        ${item.ingredient} (${item.amount}) - ${item.date} · ${item.type}
-      </span>
+      <div class="info">${item.name} (${item.quantity}) - ${item.expiration_date} · ${item.type_tag}</div>
+      <div class="actions">
       <span style="float:right">
         <button onclick="showEditModal(${item.id})">수정</button>
         <button onclick="updateStatus(${item.id}, '소비')">소비</button>
         <button onclick="updateStatus(${item.id}, '버림')">버림</button>
-      </span>
-    `;
+      </div>
+`;
     list.appendChild(li);
   });
 }
@@ -41,48 +39,25 @@ function updateStatus(id, action) {
   const item = allData.find(x => x.id === id);
   if (!item) return;
 
-  let newAmount = item.amount;
-  let consumedAmount = 0;
-  let discardedAmount = 0;
-
-  if (action === '소비') {
-    const input = prompt("소비할 수량을 입력하세요", "1");
-    const useAmount = parseInt(input, 10);
-
-    if (isNaN(useAmount) || useAmount <= 0) {
-      alert("올바른 수량을 입력해주세요!");
-      return;
-    }
-    if (useAmount > item.amount) {
-      alert("현재 수량보다 많이 소비할 수 없습니다!");
-      return;
-    }
-    newAmount = item.amount - useAmount;
-    consumedAmount = useAmount;
-  } else if (action === '버림') {
-    const input = prompt("버릴 수량을 입력하세요", "1");
-    const useAmount = parseInt(input, 10);
-
-    if (isNaN(useAmount) || useAmount <= 0) {
-      alert("올바른 수량을 입력해주세요!");
-      return;
-    }
-    if (useAmount > item.amount) {
-      alert("현재 수량보다 많이 버릴 수 없습니다!");
-      return;
-    }
-    newAmount = item.amount - useAmount;
-    discardedAmount = useAmount;
+  const input = prompt(`${action}할 수량을 입력하세요`, "1");
+  const useAmount = parseInt(input, 10);
+  if (isNaN(useAmount) || useAmount <= 0 || useAmount > item.quantity) {
+    alert("올바른 수량을 입력해주세요!");
+    return;
   }
 
+  const newQuantity = item.quantity - useAmount;
+  const status_tag = action === '소비' ? 'consumed' : 'discarded';
+
   const updateData = {
-    ingredient: item.ingredient,
-    date: item.date,
-    amount: newAmount,
-    type: item.type,
-    consumed_amount: consumedAmount,
-    discarded_amount: discardedAmount
+    name: item.name,
+    register_date: item.register_date,
+    expiration_date: item.expiration_date,
+    quantity: newQuantity,
+    type_tag: item.type_tag,
+    status_tag: status_tag
   };
+
   fetch(`/api/ingredients/${id}`, {
     method: "PUT",
     headers: {'Content-Type': 'application/json'},
@@ -104,10 +79,11 @@ function showEditModal(id) {
   if (!item) return;
   document.getElementById("modalTitle").innerText = "식자재 수정";
   document.getElementById("modalId").value = id;
-  document.getElementById("modalForm").ingredient.value = item.ingredient;
-  document.getElementById("modalForm").date.value = item.date;
-  document.getElementById("modalForm").amount.value = item.amount;
-  document.getElementById("modalForm").type.value = item.type;
+  document.getElementById("modalForm").name.value = item.name;
+  document.getElementById("modalForm").register_date.value = item.register_date;
+  document.getElementById("modalForm").expiration_date.value = item.expiration_date;
+  document.getElementById("modalForm").quantity.value = item.quantity;
+  document.getElementById("modalForm").type_tag.value = item.type_tag;
   document.getElementById("modal").style.display = "block";
 }
 
@@ -122,13 +98,14 @@ function submitModalForm(event) {
   event.preventDefault();
   const form = event.target;
   const id = form.id.value;
+  const today = new Date().toISOString().slice(0, 10)
   const body = {
-    ingredient: form.ingredient.value,
-    date: form.date.value,
-    amount: parseInt(form.amount.value),
-    type: form.type.value,
-    consumed_amount: 0, // 새 추가는 0
-    discarded_amount: 0
+    name: form.name.value,
+    register_date: today,
+    expiration_date: form.expiration_date.value,
+    quantity: parseInt(form.quantity.value),
+    type_tag: form.type_tag.value,
+    status_tag: ''
   };
 
   const url = id ? `/api/ingredients/${id}` : '/api/ingredients';
