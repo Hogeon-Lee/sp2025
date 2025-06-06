@@ -5,11 +5,18 @@
     <title>AI 추천 메뉴</title>
     <meta name="viewport" content="width=393, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const message = "{{ message | safe }}";
+            if (message) {
+                alert(message);
+            }
+        });
+    </script>
 </head>
 <body>
     <header>AI 추천 메뉴</header>
     <div class="container">
-
         <p>냉장고에 있는 재료를 활용한 요리를 추천해드려요!</p>
         <form action="/recommend" method="post">
             <button type="submit" class="main-button">추천받기</button>
