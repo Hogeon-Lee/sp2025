@@ -18,9 +18,10 @@
     </div>
     <ul class="result-list" id="resultList"></ul>
     <footer class="bottom-nav">
-      <a href="/ingredient-search"><button class="nav-btn active"></button></a>
-      <a href="/ai-menu"><button class="nav-btn"></button></a>
-      <a href="/"><button class="nav-btn"></button></a>
+      <a href="/ingredient-search"><button class="nav-btn active">⤷</button></a>
+      <a href="/ai-menu"><button class="nav-btn">⤷</button></a>
+      <a href="/"><button class="nav-btn">⤷</button></a>
+
     </footer>
   </div>
   <div id="modal" class="modal" style="display:none">
@@ -28,10 +29,11 @@
       <h3 id="modalTitle">식자재 추가</h3>
       <form id="modalForm" onsubmit="submitModalForm(event)">
         <input type="hidden" name="id" id="modalId">
-        <input name="ingredient" placeholder="재료명" required>
-        <input name="date" type="date" required>
-        <input name="amount" type="number" placeholder="수량" required>
-        <input name="type" placeholder="종류" required>
+        <input name="name" id="nameInput" placeholder="재료명" required>
+
+        <input name="expiration_date" id="expiration_dateInput" type="date" placeholder="유통기한" required>
+        <input name="quantity" id="quantityInput" type="number" placeholder="수량" required>
+        <input name="type_tag" id="typeInput" placeholder="종류" required>
         <div class="modal-btns">
           <button type="submit" id="modalSubmitBtn">저장</button>
           <button type="button" onclick="closeModal()">취소</button>
