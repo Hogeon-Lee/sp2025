@@ -5,6 +5,15 @@
     <title>AI 추천 메뉴</title>
     <meta name="viewport" content="width=393, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        // 재료가 없을 때 알림 (서버에서 msg 전달 시)
+        window.onload = function () {
+            const message = "{{ message|default('') }}";
+            if (message) {
+                alert(message);
+            }
+        }
+    </script>
 </head>
 <body>
     <header>AI 추천 메뉴</header>
@@ -40,6 +49,4 @@
       <a href="/"><button class="nav-btn"></button></a>
     </div>
 </body>
-
-
 </html>
